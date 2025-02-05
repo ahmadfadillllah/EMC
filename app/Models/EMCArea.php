@@ -8,6 +8,7 @@ class EMCArea extends Model
 {
     //
     protected $table = 'emc_area';
+    protected $primaryKey = 'id_area';
 
     protected $guarded = [];
 
