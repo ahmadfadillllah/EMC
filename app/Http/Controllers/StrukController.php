@@ -45,10 +45,10 @@ class StrukController extends Controller
             return response()->json($result, $result['status']);
         }
 
-        return view('struk.index', compact('bayar'));
+        // return view('struk.index', compact('bayar'));
 
         $pdf = Pdf::loadView('struk.index', compact('bayar'));
-        $pdf->setPaper('A5', 'portrait');
+        // $pdf->setPaper('A5', 'portrait');
         return $pdf->download('Struk.pdf');
 
 

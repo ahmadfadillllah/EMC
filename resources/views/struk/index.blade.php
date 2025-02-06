@@ -37,7 +37,8 @@
 <body>
     <div class="struk">
         <h3>{{ $bayar->nmr_struk }}</h3>
-        <p>4 February 2025</p>
+        <p>{{ \Carbon\Carbon::parse($bayar->tgl_bayar)->locale('id')->translatedFormat('d F Y') }}</p>
+
         <div class="separator"></div>
         <div class="info">
             <div><span>No Lambung :</span> <span>{{ $bayar->no_lambung }}</span></div>
@@ -46,18 +47,19 @@
         </div>
         <div class="separator"></div>
         <div class="info">
-            <div><span>Area :</span> <span>CHP1-SEL / 150.000</span></div>
-            <div><span>Tonase :</span> <span>11.98</span></div>
-            <div class="total"><span>Total Bayar :</span> <span>1.797.000</span></div>
-            <div><span>Potongan 1 :</span> <span>5.000</span></div>
-            <div><span>Potongan 2 :</span> <span>20.000</span></div>
+            <div><span>Area :</span> <span>{{ $bayar->area }}</span></div>
+            <div><span>Tonase :</span> <span>{{ $bayar->tonase }}</span></div>
+            <div class="total"><span>Total Bayar :</span> <span>Rp{{ number_format($bayar->total_bayar, 0, ',', '.') }}</span></div>
+            <div><span>Potongan 1 :</span> <span>Rp{{ number_format($bayar->potongan1, 0, ',', '.') }}</span></div>
+            <div><span>Potongan 2 :</span> <span>Rp{{ number_format($bayar->potongan2, 0, ',', '.') }}</span></div>
         </div>
         <div class="separator"></div>
         <div class="info">
-            <div class="total"><span>Jumlah Bayar :</span> <span>1.772.000</span></div>
-            <div><span>No Rekening :</span> <span>24901016843535</span></div>
+            <div class="total"><span>Jumlah Bayar :</span> <span>Rp{{ number_format($bayar->jumlah_bayar, 0, ',', '.') }}</span></div>
+            <div><span>No Rekening :</span> <span>{{ $bayar->no_rekening }}</span></div>
         </div>
         <div class="separator"></div>
+        <br><br><br>
         <p><strong>CV. ELLY MANDIRI</strong></p>
     </div>
 </body>
