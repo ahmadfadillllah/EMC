@@ -178,6 +178,7 @@ class BayarController extends Controller
                 ->leftJoin('emc_area as area', 'bayar.area', '=', 'area.area')
                 ->select(
                     'bayar.nmr_struk',
+                    'bayar.no_lambung',
                     'bayar.tgl_bayar',
                     'unit.no_polisi',
                     'unit.driver',
