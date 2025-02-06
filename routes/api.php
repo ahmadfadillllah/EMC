@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\BayarController;
+use App\Http\Controllers\StrukController;
 use App\Http\Controllers\UnitController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,3 +27,6 @@ Route::get('/bayar/getData', [BayarController::class, 'getData']);
 Route::post('/bayar/postData', [BayarController::class, 'postData']);
 Route::put('/bayar/updateData/{id_bayar}', [BayarController::class, 'updateData']);
 Route::delete('/bayar/deleteData/{id_bayar}', [BayarController::class, 'deleteData']);
+
+//Struk
+Route::get('/struk/invoice/{nmr_struk}', [StrukController::class, 'invoice']);

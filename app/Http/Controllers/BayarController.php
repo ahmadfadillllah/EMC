@@ -52,6 +52,7 @@ class BayarController extends Controller
                 'tonase' => 'nullable|string|max:11',
                 'potongan1' => 'nullable|numeric|min:0',
                 'potongan2' => 'nullable|numeric|min:0',
+                'potongan_dll' => 'nullable|numeric|min:0',
                 'status' => 'nullable|integer',
             ]);
 
@@ -113,6 +114,7 @@ class BayarController extends Controller
                 'tonase' => 'nullable|string|max:11',
                 'potongan1' => 'nullable|numeric|min:0',
                 'potongan2' => 'nullable|numeric|min:0',
+                'potongan_dll' => 'nullable|numeric|min:0',
                 'status' => 'nullable|integer',
             ]);
 
@@ -135,6 +137,7 @@ class BayarController extends Controller
                     'tonase' => $request->tonase,
                     'potongan1' => $request->potongan1,
                     'potongan2' => $request->potongan2,
+                    'potongan_dll' => $request->potongan_dll,
                     'status' => $request->status,
                 ]);
 
