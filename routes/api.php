@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\BayarController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\StrukController;
 use App\Http\Controllers\UnitController;
 use Illuminate\Http\Request;
@@ -30,3 +31,5 @@ Route::delete('/bayar/deleteData/{id_bayar}', [BayarController::class, 'deleteDa
 
 //Struk
 Route::get('/struk/invoice/{nmr_struk}', [StrukController::class, 'invoice']);
+
+Route::get('/laporan/{startDate}/{endDate}', [LaporanController::class, 'laporan']);
