@@ -5,13 +5,35 @@ namespace App\Http\Controllers;
 use App\Models\EMCBayar;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 
 class StrukController extends Controller
 {
     //
     public function invoice($nmr_struk)
     {
-        $bayar = EMCBayar::where('nmr_struk', $nmr_struk)->first();
+
+        $bayar = DB::table('emc_bayar as bayar')
+                ->leftJoin('emc_unit as unit', 'bayar.no_lambung', '=', 'unit.no_lambung')
+                ->leftJoin('emc_area as area', 'bayar.area', '=', 'area.area')
+                ->select(
+                    'bayar.nmr_struk',
+                    'bayar.tgl_bayar',
+                    'bayar.no_lambung',
+                    'unit.no_polisi',
+                    'unit.driver',
+                    'area.area',
+                    'bayar.tonase',
+                    'bayar.harga as total_bayar',
+                    'bayar.potongan1',
+                    'bayar.potongan2',
+                    'bayar.potongan_dll',
+                    DB::raw('bayar.harga - bayar.potongan1 - bayar.potongan2 - bayar.potongan_dll as jumlah_bayar'),
+                    'unit.no_rekening'
+                )
+                ->where('bayar.nmr_struk', '=', $nmr_struk)
+                ->first();
+
 
         if ($bayar != null) {
 
@@ -23,12 +45,13 @@ class StrukController extends Controller
             return response()->json($result, $result['status']);
         }
 
+        return view('struk.index', compact('bayar'));
+
+        $pdf = Pdf::loadView('struk.index', compact('bayar'));
+        $pdf->setPaper('A5', 'portrait');
+        return $pdf->download('Struk.pdf');
 
 
 
-        return view('struk.invoice', $bayar);
-
-        $pdf = Pdf::loadView('struk.invoice', $data);
-        return $pdf->download('invoice.pdf');
     }
 }
