@@ -24,11 +24,11 @@ class StrukController extends Controller
                     'unit.driver',
                     'area.area',
                     'bayar.tonase',
-                    'bayar.harga as total_bayar',
+                    DB::raw('COALESCE(bayar.tonase, 0) * COALESCE(bayar.harga, 0) as total_bayar'),
                     'bayar.potongan1',
                     'bayar.potongan2',
                     'bayar.potongan_dll',
-                    DB::raw('bayar.harga - bayar.potongan1 - bayar.potongan2 - bayar.potongan_dll as jumlah_bayar'),
+                    DB::raw('COALESCE(bayar.tonase, 0) * COALESCE(bayar.harga, 0) - COALESCE(bayar.potongan1, 0) - COALESCE(bayar.potongan2, 0) - COALESCE(bayar.potongan_dll, 0) as jumlah_bayar'),
                     'unit.no_rekening'
                 )
                 ->where('bayar.nmr_struk', '=', $nmr_struk)
