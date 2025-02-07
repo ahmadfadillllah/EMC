@@ -36,6 +36,46 @@ class UnitController extends Controller
         return response()->json($result, $result['status']);
     }
 
+    public function getFilter($no_lambung)
+    {
+        try {
+            if ($no_lambung != '') {
+                $unit = EMCUnit::where('no_lambung', 'LIKE', '%' . $no_lambung . '%')->get();
+
+                if (!$unit->isEmpty()) {
+                    $transStatus = true;
+                    $transMessage = "Unit ditemukan";
+                } else {
+                    $transStatus = false;
+                    $transMessage = "Unit tidak ditemukan";
+                }
+            } else {
+                $unit = EMCUnit::all();
+                $transStatus = true;
+                $transMessage = "Semua unit ditampilkan";
+            }
+
+
+        } catch (\Throwable $th) {
+            $transStatus = false;
+            $transMessage = $th->getMessage();
+        }
+
+        if ($transStatus != false) {
+            $result = array(
+                "data" => $unit,
+                "status" => 201,
+                "message" => $transMessage,
+            );
+        } else {
+            $result = array(
+                "status" => 400,
+                "message" => $transMessage,
+            );
+        }
+        return response()->json($result, $result['status']);
+    }
+
     public function postData(Request $request)
     {
         try {

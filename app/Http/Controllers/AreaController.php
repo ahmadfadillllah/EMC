@@ -37,6 +37,46 @@ class AreaController extends Controller
         return response()->json($result, $result['status']);
     }
 
+    public function getFilter($area)
+    {
+        try {
+            if ($area != '') {
+                $area = EMCArea::where('area', 'LIKE', '%' . $area . '%')->get();
+
+                if (!$area->isEmpty()) {
+                    $transStatus = true;
+                    $transMessage = "Area ditemukan";
+                } else {
+                    $transStatus = false;
+                    $transMessage = "Area tidak ditemukan";
+                }
+            } else {
+                $area = EMCArea::all();
+                $transStatus = true;
+                $transMessage = "Semua area ditampilkan";
+            }
+
+
+        } catch (\Throwable $th) {
+            $transStatus = false;
+            $transMessage = $th->getMessage();
+        }
+
+        if ($transStatus != false) {
+            $result = array(
+                "data" => $area,
+                "status" => 201,
+                "message" => $transMessage,
+            );
+        } else {
+            $result = array(
+                "status" => 400,
+                "message" => $transMessage,
+            );
+        }
+        return response()->json($result, $result['status']);
+    }
+
     public function postData(Request $request)
     {
         try {

@@ -38,6 +38,46 @@ class BayarController extends Controller
         return response()->json($result, $result['status']);
     }
 
+    public function getFilter($nmr_struk)
+    {
+        try {
+            if ($nmr_struk != '') {
+                $pembayaran = EMCBayar::where('nmr_struk', 'LIKE', '%' . $nmr_struk . '%')->get();
+
+                if (!$pembayaran->isEmpty()) {
+                    $transStatus = true;
+                    $transMessage = "Pembayaran ditemukan";
+                } else {
+                    $transStatus = false;
+                    $transMessage = "Pembayaran tidak ditemukan";
+                }
+            } else {
+                $pembayaran = EMCBayar::all();
+                $transStatus = true;
+                $transMessage = "Semua pembayaran ditampilkan";
+            }
+
+
+        } catch (\Throwable $th) {
+            $transStatus = false;
+            $transMessage = $th->getMessage();
+        }
+
+        if ($transStatus != false) {
+            $result = array(
+                "data" => $pembayaran,
+                "status" => 201,
+                "message" => $transMessage,
+            );
+        } else {
+            $result = array(
+                "status" => 400,
+                "message" => $transMessage,
+            );
+        }
+        return response()->json($result, $result['status']);
+    }
+
     public function postData(Request $request)
     {
         try {
