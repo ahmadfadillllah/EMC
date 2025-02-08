@@ -84,6 +84,7 @@
 <body>
     @php
         $totalBayar = 0;
+        $grandTotal = 0;
     @endphp
 
     <h2 style="text-align: center; margin-top: 20px;"><u>Laporan Pembayaran</u></h2>
@@ -106,7 +107,9 @@
         <tbody>
             @foreach ($bayar as $item)
             @php
+
                 $totalBayar = $item->harga - $item->potongan1 - $item->potongan2 - $item->potongan_dll;
+                $grandTotal += $totalBayar;
             @endphp
             <tr>
                 <td>{{ $loop->iteration }}</td>
@@ -121,6 +124,11 @@
                 <td>Rp{{ number_format($totalBayar, 0, ',', '.') }}</td>
             </tr>
             @endforeach
+            <tr>
+                <td colspan="8" style="border-right:none;"></td>
+                <td style="text-align: center;"><b>Grand Total</b></td>
+                <td><b>Rp{{ number_format($grandTotal, 0, ',', '.') }}</b></td>
+            </tr>
         </tbody>
 
     </table>

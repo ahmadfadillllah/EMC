@@ -28,7 +28,7 @@ class LaporanController extends Controller
         // dd($bayar);
 
 
-        // return view('struk.laporan', compact('bayar', 'namaBulan'));
+        return view('struk.laporan', compact('bayar'));
 
         $pdf = Pdf::loadView('struk.laporan', compact('bayar'));
         $pdf->setPaper('A4', 'landscape');
