@@ -115,6 +115,7 @@ class BayarController extends Controller
                 'tonase' => $request->tonase,
                 'potongan1' => $request->potongan1,
                 'potongan2' => $request->potongan2,
+                'potongan_dll' => $request->potongan_dll,
                 'status' => $request->status,
             ]);
 

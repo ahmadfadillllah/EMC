@@ -52,6 +52,7 @@
             <div class="total"><span>Total Bayar :</span> <span>Rp{{ number_format($bayar->total_bayar, 0, ',', '.') }}</span></div>
             <div><span>Potongan 1 :</span> <span>Rp{{ number_format($bayar->potongan1, 0, ',', '.') }}</span></div>
             <div><span>Potongan 2 :</span> <span>Rp{{ number_format($bayar->potongan2, 0, ',', '.') }}</span></div>
+            <div><span>Potongan dll :</span> <span>Rp{{ number_format($bayar->potongan_dll, 0, ',', '.') }}</span></div>
         </div>
         <div class="separator"></div>
         <div class="info">
