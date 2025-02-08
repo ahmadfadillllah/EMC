@@ -24,6 +24,7 @@ class StrukController extends Controller
                     'unit.driver',
                     'area.area',
                     'bayar.tonase',
+                    'bayar.harga',
                     DB::raw('COALESCE(bayar.tonase, 0) * COALESCE(bayar.harga, 0) as total_bayar'),
                     'bayar.potongan1',
                     'bayar.potongan2',
