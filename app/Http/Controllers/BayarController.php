@@ -102,6 +102,8 @@ class BayarController extends Controller
             $randomLetter = chr(rand(65, 90));
 
             $randomString = $randomLetter . $randomNumber;
+            $totalBayar = ($request->tonase * $request->harga) - ($request->potongan1 + $request->potongan2 + $request->potongan_dll);
+            $jumlahBayar = $totalBayar; // Atau bisa disesuaikan sesuai kebutuhan
 
             $bayar = EMCBayar::create([
                 // 'nmr_struk' => substr(date('Y'), -2).date('m').date('d')."414T".$randomString,
@@ -117,6 +119,11 @@ class BayarController extends Controller
                 'potongan2' => $request->potongan2,
                 'potongan_dll' => $request->potongan_dll,
                 'status' => $request->status,
+            ]
+            , [
+                // Menambahkan totalBayar dan jumlahBayar, tetapi tidak disimpan ke database
+                'totalBayar' => $totalBayar,
+                'jumlahBayar' => $jumlahBayar
             ]);
 
             $transStatus = true;
