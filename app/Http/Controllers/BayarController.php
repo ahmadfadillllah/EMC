@@ -144,6 +144,9 @@ class BayarController extends Controller
             $totalBayar = ($request->tonase * $request->harga) - ($request->potongan1 + $request->potongan2 + $request->potongan_dll);
             $jumlahBayar = $totalBayar;
 
+            $totalBayar = strval($totalBayar); // Atau bisa menggunakan (string) $totalBayar
+$jumlahBayar = strval($jumlahBayar);
+
             $bayar->setAttribute('totalBayar', $totalBayar);
             $bayar->setAttribute('jumlahBayar', $jumlahBayar);
             $bayar->setAttribute('no_polisi', $data->no_polisi);
