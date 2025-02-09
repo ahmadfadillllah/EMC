@@ -102,8 +102,7 @@ class BayarController extends Controller
             $randomLetter = chr(rand(65, 90));
 
             $randomString = $randomLetter . $randomNumber;
-            $totalBayar = ($request->tonase * $request->harga) - ($request->potongan1 + $request->potongan2 + $request->potongan_dll);
-            $jumlahBayar = $totalBayar; // Atau bisa disesuaikan sesuai kebutuhan
+             // Atau bisa disesuaikan sesuai kebutuhan
 
             $bayar = EMCBayar::create([
                 // 'nmr_struk' => substr(date('Y'), -2).date('m').date('d')."414T".$randomString,
@@ -119,15 +118,39 @@ class BayarController extends Controller
                 'potongan2' => $request->potongan2,
                 'potongan_dll' => $request->potongan_dll,
                 'status' => $request->status,
-            ]
-            , [
-                // Menambahkan totalBayar dan jumlahBayar, tetapi tidak disimpan ke database
-                'totalBayar' => $totalBayar,
-                'jumlahBayar' => $jumlahBayar
             ]);
+            $data = DB::table('emc_bayar as bayar')
+                ->leftJoin('emc_unit as unit', 'bayar.no_lambung', '=', 'unit.no_lambung')
+                ->leftJoin('emc_area as area', 'bayar.area', '=', 'area.area')
+                ->select(
+                    'bayar.nmr_struk',
+                    'bayar.tgl_bayar',
+                    'bayar.no_lambung',
+                    'unit.no_polisi',
+                    'unit.driver',
+                    'area.area',
+                    'bayar.tonase',
+                    'bayar.harga',
+                    DB::raw('COALESCE(bayar.tonase, 0) * COALESCE(bayar.harga, 0) as total_bayar'),
+                    'bayar.potongan1',
+                    'bayar.potongan2',
+                    'bayar.potongan_dll',
+                    DB::raw('COALESCE(bayar.tonase, 0) * COALESCE(bayar.harga, 0) - COALESCE(bayar.potongan1, 0) - COALESCE(bayar.potongan2, 0) - COALESCE(bayar.potongan_dll, 0) as jumlah_bayar'),
+                    'unit.no_rekening'
+                )
+                ->where('bayar.nmr_struk', '=', $request->nmr_struk)
+                ->first();
+
+            $totalBayar = ($request->tonase * $request->harga) - ($request->potongan1 + $request->potongan2 + $request->potongan_dll);
+            $jumlahBayar = $totalBayar;
+
+            $bayar->setAttribute('totalBayar', $totalBayar);
+            $bayar->setAttribute('jumlahBayar', $jumlahBayar);
+            $bayar->setAttribute('no_polisi', $data->no_polisi);
+            $bayar->setAttribute('driver', $data->driver);
 
             $transStatus = true;
-            $transMessage = "Berhasil menambahkan unit";
+            $transMessage = "Berhasil menambahkan pembayaran";
 
         } catch (\Throwable $th) {
             $transStatus = false;
