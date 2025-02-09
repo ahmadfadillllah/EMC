@@ -145,8 +145,8 @@ class BayarController extends Controller
             $jumlahBayar = $totalBayar;
 
 
-            $bayar->setAttribute('totalBayar', $totalBayar);
-            $bayar->setAttribute('jumlahBayar', $jumlahBayar);
+            $bayar->setAttribute('total_bayar', $totalBayar);
+            $bayar->setAttribute('jumlah_bayar', $jumlahBayar);
             $bayar->setAttribute('no_polisi', $data->no_polisi);
             $bayar->setAttribute('driver', $data->driver);
 
