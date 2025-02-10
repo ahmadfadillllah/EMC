@@ -141,7 +141,14 @@ class BayarController extends Controller
                 ->where('bayar.nmr_struk', '=', $request->nmr_struk)
                 ->first();
 
-            $totalBayar = ($request->tonase * $request->harga) - ($request->potongan1 + $request->potongan2 + $request->potongan_dll);
+                $tonase = $request->tonase ?: 0; // Jika $request->tonase kosong atau 0, set ke 0
+                $harga = $request->harga ?: 0; // Jika $request->harga kosong atau 0, set ke 0
+                $potongan1 = $request->potongan1 ?: 0; // Jika $request->potongan1 kosong atau 0, set ke 0
+                $potongan2 = $request->potongan2 ?: 0; // Jika $request->potongan2 kosong atau 0, set ke 0
+                $potongan_dll = $request->potongan_dll ?: 0; // Jika $request->potongan_dll kosong atau 0, set ke 0
+
+                // Sekarang hitung totalBayar dengan nilai yang sudah dipastikan tidak 0 atau kosong
+                $totalBayar = ($tonase * $harga) - ($potongan1 + $potongan2 + $potongan_dll);
             $jumlahBayar = $totalBayar;
 
 
@@ -256,6 +263,7 @@ class BayarController extends Controller
                     'unit.driver',
                     'area.area',
                     'bayar.tonase',
+                    'bayar.harga',
                     DB::raw('COALESCE(bayar.tonase, 0) * COALESCE(bayar.harga, 0) as total_bayar'),
                     'bayar.potongan1',
                     'bayar.potongan2',
