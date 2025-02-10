@@ -47,7 +47,7 @@
         </div>
         <div class="separator"></div>
         <div class="info">
-            <div><span>Area :</span> <span>{{ $bayar->area }}</span></div>
+            <div><span>Area :</span> <span>{{ $bayar->area }} | {{ $bayar->harga }}</span></div>
             <div><span>Tonase :</span> <span>{{ $bayar->tonase }}</span></div>
             <div class="total"><span>Total Bayar :</span> <span>Rp{{ number_format($bayar->total_bayar, 0, ',', '.') }}</span></div>
             <div><span>Potongan 1 :</span> <span>Rp{{ number_format($bayar->potongan1, 0, ',', '.') }}</span></div>
